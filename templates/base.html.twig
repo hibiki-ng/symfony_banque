@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            body {
+                overflow: hidden;
+            }
+        </style>
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+    <div class="flex h-screen font-sans home">
+        <div class="hello">
+            <div id="navbar" class="flex flex-col pl-2 w-60 h-5/6 ml-8 mt-10 justify-between rounded-lg">
+                <div class="">
+                    <a href="index.html" class="font-mono text-3xl font-bold mt-4">Banque</a>
+                </div>
+                {% if not app.user %}
+
+                {% else %}
+                    <div class="flex flex-col justify-around h-60">
+                        <router-link to="/operations">Opérations</router-link>
+                        <a href="#">Budget</a>
+                        <a href="#">Virement</a>
+                        <a href="#">Mode sombre</a>
+                    </div>
+                {% endif %}
+
+                {% if not app.user %}
+                    <div class="flex flex-col h-60 leading-loose justify-end">
+                        <a href="{{ path('security_signup') }}">S'inscrire</a>
+                        <a href="{{ path('security_login') }}">Se connecter</a>
+                    </div>
+                {% else %}
+                    <div class="flex flex-col h-60 leading-loose justify-end">
+                        <a href="{{ path('security_logout') }}">Déconnexion</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% block body %}{% endblock %}
+    </body>
+</html>
